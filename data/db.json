@@ -3,6 +3,7 @@
         {
             "left": 90,
             "right": 110,
+            "goal": 100,
             "tiles": [
                 {
                     "leftOp": {
@@ -26,6 +27,44 @@
                 }
             ],
             "id": 1
+        },
+        {
+            "left": 17,
+            "right": 17,
+            "goal": 100,
+            "tiles": [
+                {
+                    "leftOp": {
+                        "op": "+",
+                        "value": 1
+                    },
+                    "rightOp": {
+                        "op": "÷",
+                        "value": 2
+                    }
+                },
+                {
+                    "leftOp": {
+                        "op": "*",
+                        "value": 3
+                    },
+                    "rightOp": {
+                        "op": "*",
+                        "value": 200
+                    }
+                },
+                {
+                    "leftOp": {
+                        "op": "+",
+                        "value": 16
+                    },
+                    "rightOp": {
+                        "op": "-",
+                        "value": 16
+                    }
+                }
+            ],
+            "id": 2
         }
     ]
 }

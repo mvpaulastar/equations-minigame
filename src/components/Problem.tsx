@@ -1,11 +1,14 @@
 import Timer from "./Timer";
+import Tile from "./Tile";
+import useEquations from "../hooks/useEquations";
 import './Problem.css';
-import {useState, useEffect} from "react";
+import { useEffect, useState } from "react";
 
 const problems = ({problem}:{problem:{
     id: number,
     left: number,
     right: number,
+    goal: number,
     tiles: {
         leftOp: {
             op: string,
@@ -17,23 +20,22 @@ const problems = ({problem}:{problem:{
         }
     }[]
 }}) => {    
-    const [left, setLeft] = useState(problem.left);
-    const [right, setRight] = useState(problem.right);
-    const [isCorrect, setIsCorrect] = useState(false);
-    const [seconds, setSeconds] = useState(0);
-    const [isActive, setIsActive] = useState(true);
+    const {left, right, isCorrect, seconds, handleTileClick} = useEquations(problem.left, problem.right, problem.goal);
+    const [randomReady, setRandomReady] = useState(false);
 
-    function handleTileClick(tile:any){
-        setLeft(handleMath(left, tile.leftOp.op, tile.leftOp.value));
-        setRight(handleMath(right, tile.rightOp.op, tile.rightOp.value));
-    }
-
+    //shuffle tiles
     useEffect( () => {
-        if( left === right ){
-            setIsCorrect(true);
-            setIsActive(false);
+        const shuffle = (array:{}[]) => {
+            for (let i = array.length - 1; i > 0; i--) {
+              const j = Math.floor(Math.random() * (i + 1));
+              const temp = array[i];
+              array[i] = array[j];
+              array[j] = temp;
+            }
         }
-    }, [left, right]);
+        shuffle(problem.tiles);
+        setRandomReady(true);
+    }, []);
 
     if( isCorrect ){
         return (
@@ -43,40 +45,21 @@ const problems = ({problem}:{problem:{
         );
     }
 
-
-    return ( 
+    return (      
+        <>
+        { randomReady &&
         <div className="problem">
-            <Timer seconds={seconds} setSeconds={setSeconds} isActive = {isActive} />
-            <h1>Equalize</h1>
+            <Timer seconds={seconds}/>
+            <h1>Goal: {problem.goal}</h1>
             <h1>{left} = {right}</h1>
             <div className="tilesList">
-                {problem.tiles.map( (tile, index) => (
-                    <div className="tile" key={index} onClick={(e) => handleTileClick(tile)}>
-                        <h2>
-                            {`${tile.leftOp.op}${tile.leftOp.value} `} 
-                            /
-                            {` ${tile.rightOp.op}${tile.rightOp.value}`}
-                        </h2>
-                    </div>
+                {problem.tiles.map( (tile) => (
+                    <Tile tile={tile} handleTileClick={handleTileClick} />
                 ))}
             </div>
-        </div>
+        </div>}
+        </>
      );
-}
-
-function handleMath( num: number, op: string, value: number){
-    switch(op){
-        case '+':
-            return num + value;
-        case '-':
-            return num - value;
-        case '*':
-            return num * value;
-        case '÷':
-            return num / value;
-        default:
-            return value;
-    }
 }
  
 export default problems;
