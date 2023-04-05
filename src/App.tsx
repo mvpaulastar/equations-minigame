@@ -3,7 +3,7 @@ import Problem from './components/Problem';
 import './App.css'
 
 function App() {
-  const { error, isPending, data: problems } = useFetch('http://localhost:8000/problems');
+  const { error, isPending, data: problems } = useFetch('./data/db.json');
   const problem = problems[Math.floor(Math.random() * problems.length)]; //Choose random problem
 
   return (
