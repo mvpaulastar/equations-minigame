@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { ButtonHTMLAttributes, useEffect, useState } from 'react';
 const useEquation = (problemLeft:number, problemRight:number, goal:number) => {
     const [left, setLeft] = useState(problemLeft);
     const [right, setRight] = useState(problemRight);
@@ -28,7 +28,8 @@ const useEquation = (problemLeft:number, problemRight:number, goal:number) => {
       }, [isActive, seconds]);
 
       //Tile click
-    function handleTileClick(tile:any){
+    function handleTileClick(tile:any, btn:HTMLButtonElement){
+        btn.disabled = true;
         setLeft(handleMath(left, tile.leftOp.op, tile.leftOp.value));
         setRight(handleMath(right, tile.rightOp.op, tile.rightOp.value));
     }

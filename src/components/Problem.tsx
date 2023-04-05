@@ -1,5 +1,6 @@
 import Timer from "./Timer";
 import Tile from "./Tile";
+import Score from "./Score";
 import useEquations from "../hooks/useEquations";
 import './Problem.css';
 import { useEffect, useState } from "react";
@@ -39,9 +40,7 @@ const problems = ({problem}:{problem:{
 
     if( isCorrect ){
         return (
-            <div>
-                <h1>You took {seconds} seconds to solve this.</h1>
-            </div>
+            <Score seconds={seconds} />
         );
     }
 
@@ -53,8 +52,8 @@ const problems = ({problem}:{problem:{
             <h1>Goal: {problem.goal}</h1>
             <h1>{left} = {right}</h1>
             <div className="tilesList">
-                {problem.tiles.map( (tile) => (
-                    <Tile tile={tile} handleTileClick={handleTileClick} />
+                {problem.tiles.map( (tile, index) => (
+                    <Tile tile={tile} key={index} handleTileClick={handleTileClick} />
                 ))}
             </div>
         </div>}

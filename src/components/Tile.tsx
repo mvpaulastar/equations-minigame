@@ -1,12 +1,10 @@
 const Tile = ({tile, handleTileClick}:{tile:any, handleTileClick: Function}) => {
     return ( 
-        <div className="tile" onClick={(e) => handleTileClick(tile)}>
-            <h2>
+        <button className="tile" onClick={(e) => handleTileClick(tile, e.target)}>
                 {`${tile.leftOp.op}${tile.leftOp.value} `} 
                 /
                 {` ${tile.rightOp.op}${tile.rightOp.value}`}
-            </h2>
-        </div>
+        </button>
      );
 }
  
