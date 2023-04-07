@@ -21,7 +21,7 @@ const problems = ({problem}:{problem:{
         }
     }[]
 }}) => {    
-    const {left, right, isCorrect, seconds, handleTileClick} = useEquations(problem.left, problem.right, problem.goal);
+    const {left, right, isCorrect, seconds, handleTileClick, handleUndo} = useEquations(problem.left, problem.right, problem.goal);
     const [randomReady, setRandomReady] = useState(false);
 
     //shuffle tiles
@@ -56,6 +56,7 @@ const problems = ({problem}:{problem:{
                     <Tile tile={tile} key={index} handleTileClick={handleTileClick} />
                 ))}
             </div>
+            <button onClick={handleUndo}>Undo</button>
         </div>}
         </>
      );
