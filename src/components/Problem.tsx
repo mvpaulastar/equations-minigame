@@ -1,7 +1,7 @@
 import Timer from "./Timer";
 import Tile from "./Tile";
 import Score from "./Score";
-import useEquations from "../hooks/useEquations";
+import useProblem from "../hooks/useProblem";
 import './Problem.css';
 import { useEffect, useState } from "react";
 
@@ -21,7 +21,7 @@ const problems = ({problem}:{problem:{
         }
     }[]
 }}) => {    
-    const {left, right, isCorrect, seconds, handleTileClick, handleUndo} = useEquations(problem.left, problem.right, problem.goal);
+    const {left, right, isCorrect, seconds, handleTileClick, handleUndo} = useProblem(problem.left, problem.right, problem.goal);
     const [randomReady, setRandomReady] = useState(false);
 
     //shuffle tiles
