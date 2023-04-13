@@ -1,11 +1,18 @@
 import { useEffect, useState } from 'react';
+
+type state = {
+    btn: HTMLButtonElement,
+    left: number,
+    right: number
+}
+
 const useEquation = (problemLeft:number, problemRight:number, goal:number) => {
     const [left, setLeft] = useState(problemLeft);
     const [right, setRight] = useState(problemRight);
     const [isCorrect, setIsCorrect] = useState(false);
     const [seconds, setSeconds] = useState(0);
     const [isActive, setIsActive] = useState(true);
-    const [undo, setUndo] = useState([] as any);
+    const [undo, setUndo] = useState<state[]>([]);
 
     //Check puzzle solve.
     useEffect( () => {
@@ -30,11 +37,11 @@ const useEquation = (problemLeft:number, problemRight:number, goal:number) => {
 
       //Tile click
     function handleTileClick(tile:any, btn:HTMLButtonElement){
-        const oldState = {
+        const oldState : state = {
             btn: btn,
             left: left,
             right: right
-        }
+        } 
 
         setUndo([...undo, oldState]);
         btn.disabled = true;
@@ -53,7 +60,6 @@ const useEquation = (problemLeft:number, problemRight:number, goal:number) => {
         // Remove the last element from undo
         undo.pop();
     }
-
     
     return {left, right, isCorrect, seconds, handleTileClick, handleUndo};
 }
