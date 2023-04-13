@@ -1,4 +1,5 @@
 import { TileData } from "../classes/TileData";
+import './Tile.css';
 
 const Tile = ({tile, handleTileClick}:{tile:TileData, handleTileClick: Function}) => {
     return ( 

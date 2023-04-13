@@ -41,7 +41,7 @@ const problems = ({problem}:{problem:Problem}) => {
                     <Tile tile={tile} key={index} handleTileClick={handleTileClick} />
                 ))}
             </div>
-            <button onClick={handleUndo}>Undo</button>
+            <button className="undo" onClick={handleUndo}>Undo</button>
         </div>}
         </>
      );
