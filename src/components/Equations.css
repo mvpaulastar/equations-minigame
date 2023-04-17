@@ -1,0 +1,17 @@
+.tilesList{
+    display: flex;
+    flex-wrap: wrap;
+    place-content: space-evenly;
+}
+
+.problem *{
+    margin: 1em auto;
+}
+
+.stats{
+    display: flex;
+}
+
+.failed{
+    color:red;
+}

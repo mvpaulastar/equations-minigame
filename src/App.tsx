@@ -1,5 +1,6 @@
 import useFetch from './hooks/useFetch';
-import Problem from './components/Problem';
+import MainNav from './components/MainNav';
+import Equations from './components/Equations';
 import './App.css'
 
 function App() {
@@ -7,11 +8,14 @@ function App() {
   const problem = problems[Math.floor(Math.random() * problems.length)]; //Choose random problem
 
   return (
+    <>
+    <MainNav></MainNav>
     <div className="App">
       { error && <div>{ error }</div> }
       { isPending && <div>Loading...</div> }
-      { problem && <Problem problem={problem}/>}
+      { problem && <Equations problem={problem}/>}
     </div>
+    </>
   )
 }
 
