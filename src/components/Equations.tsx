@@ -3,12 +3,14 @@ import Tile from "./Tile";
 import Score from "./Score";
 import useEquations from "../hooks/useEquations";
 import './Equations.css';
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Problem } from "../classes/Problem";
 
 const problems = ({problem}:{problem:Problem}) => {    
-    const {left, right, isCorrect, seconds, handleTileClick, handleUndo} = useEquations(problem.left, problem.right, problem.goal);
+    const {left, right, isCorrect, seconds, handleTileClick, handleUndo, allTilesClicked} = useEquations(problem.left, problem.right, problem.goal, problem.tiles.length);
     const [randomReady, setRandomReady] = useState(false);
+    const problemNumbers = useRef<HTMLHeadingElement>(null);
+
     //shuffle tiles
     useEffect( () => {
         const shuffle = (array:{}[]) => {
@@ -21,7 +23,16 @@ const problems = ({problem}:{problem:Problem}) => {
         }
         shuffle(problem.tiles);
         setRandomReady(true);
-    }, []);
+    }, []);    
+
+    if(problemNumbers.current){
+        if(allTilesClicked){
+            problemNumbers.current!.classList.add('failed');
+        }
+        else{
+            problemNumbers.current!.classList.remove('failed');
+        }
+    }
 
     if( isCorrect ){
         return (
@@ -33,9 +44,12 @@ const problems = ({problem}:{problem:Problem}) => {
         <>
         { randomReady &&
         <div className="problem">
-            <Timer seconds={seconds}/>
-            <h1>Goal: {problem.goal}</h1>
-            <h1>{left} = {right}</h1>
+            <div className='stats'>
+                <Timer seconds={seconds}/>
+                <h1>Goal: {problem.goal}</h1>
+            </div>
+            <hr></hr>
+            <h1 ref={problemNumbers}>{left} = {right}</h1>
             <div className="tilesList">
                 {problem.tiles.map( (tile, index) => (
                     <Tile tile={tile} key={index} handleTileClick={handleTileClick} />

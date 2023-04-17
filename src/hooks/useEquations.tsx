@@ -1,20 +1,15 @@
 import { useEffect, useState } from 'react';
 
-type state = {
-    btn: HTMLButtonElement,
-    left: number,
-    right: number
-}
-
-const useEquation = (problemLeft:number, problemRight:number, goal:number) => {
+const useEquation = (problemLeft:number, problemRight:number, goal:number, tilesListLength:number) => {
     const [left, setLeft] = useState(problemLeft);
     const [right, setRight] = useState(problemRight);
     const [isCorrect, setIsCorrect] = useState(false);
     const [seconds, setSeconds] = useState(0);
     const [isActive, setIsActive] = useState(true);
-    const [undo, setUndo] = useState<state[]>([]);
+    const [allTilesClicked, setAllTilesClicked] = useState(false);
+    const [undo, setUndo] = useState<HTMLButtonElement[]>([]);
 
-    //Check puzzle solve.
+    // Check puzzle solve
     useEffect( () => {
         if( (left === goal) && (right === goal) ){
             setIsCorrect(true);
@@ -24,44 +19,45 @@ const useEquation = (problemLeft:number, problemRight:number, goal:number) => {
 
     //Timer
     useEffect(() => {
-        let interval: number = 0;
-        if (isActive) {
-          interval = setInterval(() => {
-            setSeconds((seconds: number) => seconds + 1);
-          }, 1000);
-        } else if (!isActive && seconds !== 0) {
-          clearInterval(interval);
+        let timeOutId: number = 0;
+        if( isActive ){
+            timeOutId = setTimeout( () => {
+                setSeconds((seconds:number) => seconds + 1);
+            }, 1000);
+        }else if(!isActive && seconds != 0){ //Prevent prev interval from continuing after solve
+            clearTimeout(timeOutId);
         }
-        return () => clearInterval(interval);
-      }, [isActive, seconds]);
 
-      //Tile click
+        return () => clearTimeout(timeOutId);
+    }, [isActive, seconds]);
+
+    //Tile click
     function handleTileClick(tile:any, btn:HTMLButtonElement){
-        const oldState : state = {
-            btn: btn,
-            left: left,
-            right: right
-        } 
-
-        setUndo([...undo, oldState]);
+        setUndo([...undo, btn]);
         btn.disabled = true;
         setLeft(handleMath(left, tile.leftOp.op, tile.leftOp.value));
         setRight(handleMath(right, tile.rightOp.op, tile.rightOp.value));
+        if(tilesListLength-1 == undo.length){
+            setAllTilesClicked(true);
+        }
     }
 
+    //undo
     function handleUndo(){
-        const lastState = undo[undo.length - 1];
+        //Reset Values
+        setLeft(problemLeft);
+        setRight(problemRight);
 
-        // Set the previous state values
-        setLeft(lastState.left);
-        setRight(lastState.right);
-        lastState.btn.disabled = false;
-    
-        // Remove the last element from undo
-        undo.pop();
+        let tempUndo = [...undo];
+        for( let i = tempUndo.length; i > 0; i-- ){
+            let prevStateBtn = tempUndo.pop();
+            prevStateBtn!.disabled = false;
+        }
+        setUndo([]);
+        setAllTilesClicked(false);
     }
     
-    return {left, right, isCorrect, seconds, handleTileClick, handleUndo};
+    return {left, right, isCorrect, seconds, handleTileClick, handleUndo, allTilesClicked};
 }
 
 function handleMath( num: number, op: string, value: number){

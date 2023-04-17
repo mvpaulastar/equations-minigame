@@ -1,0 +1,15 @@
+nav{
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    background-color: var(--dark-primary);
+    background-image: linear-gradient(to right, var(--dark-primary), var(--dark-primary-variant));
+}
+
+@media (prefers-color-scheme: light){
+    nav{
+        background-color: var(--light-primary);
+        background-image: linear-gradient(to right, var(--light-primary), var(--light-primary-variant));
+    }
+}

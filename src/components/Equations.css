@@ -3,22 +3,15 @@
     flex-wrap: wrap;
     place-content: space-evenly;
 }
-.tile{
-    border-color: rgba(255, 0, 0, 0);
-    background: cornflowerblue;
-    color: darkgrey;
-    transition: .5s ease;
-    padding: 2rem;
-    border-radius: 1rem;
+
+.problem *{
+    margin: 1em auto;
 }
 
-.tile:hover{
-    cursor: pointer;
-    background: rgb(36, 109, 245);
-    color: white;
+.stats{
+    display: flex;
 }
 
-.tile:disabled{
-    opacity: .5;
-    pointer-events: none;
+.failed{
+    color:red;
 }
