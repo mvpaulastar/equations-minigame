@@ -46,7 +46,9 @@ const problems = ({problem}:{problem:Problem}) => {
         <div className="problem">
             <div className='stats'>
                 <Timer seconds={seconds}/>
-                <h1>Goal: {problem.goal}</h1>
+                <div>
+                    <h1>Goal: {problem.goal}</h1>
+                </div>
             </div>
             <hr></hr>
             <h1 ref={problemNumbers}>{left} = {right}</h1>

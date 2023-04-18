@@ -24,7 +24,7 @@ const useEquation = (problemLeft:number, problemRight:number, goal:number, tiles
             timeOutId = setTimeout( () => {
                 setSeconds((seconds:number) => seconds + 1);
             }, 1000);
-        }else if(!isActive && seconds != 0){ //Prevent prev interval from continuing after solve
+        }else if(!isActive && seconds != 0){ //Prevent interval from continuing after solve
             clearTimeout(timeOutId);
         }
 
@@ -37,6 +37,8 @@ const useEquation = (problemLeft:number, problemRight:number, goal:number, tiles
         btn.disabled = true;
         setLeft(handleMath(left, tile.leftOp.op, tile.leftOp.value));
         setRight(handleMath(right, tile.rightOp.op, tile.rightOp.value));
+
+        //for failed color
         if(tilesListLength-1 == undo.length){
             setAllTilesClicked(true);
         }
@@ -44,7 +46,6 @@ const useEquation = (problemLeft:number, problemRight:number, goal:number, tiles
 
     //undo
     function handleUndo(){
-        //Reset Values
         setLeft(problemLeft);
         setRight(problemRight);
 

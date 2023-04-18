@@ -5,11 +5,13 @@
 }
 
 .problem *{
-    margin: 1em auto;
+    margin: clamp(.5rem, 2vw, 1rem);
 }
 
 .stats{
     display: flex;
+    flex-wrap: wrap;
+    place-content: space-evenly;
 }
 
 .failed{
